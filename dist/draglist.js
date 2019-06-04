@@ -28,16 +28,18 @@
                     target.style.boxShadow = "0px 5px 10px 0px #AAAAAAAA"
                 }
             })
-            drag.addEventListener("mouseup", e => {
+            function outEvent(e) {
                 var itemIndex = Math.floor((e.clientY - drag.getBoundingClientRect().top + itemHeight / 2) / itemHeight)
                 drag.removeChild(tmpElement)
                 drag.insertBefore(target, drag.children[itemIndex])
 
-                target.style.position="static"
+                target.style.position = "static"
                 target.style.boxShadow = "none"
 
                 tmpElement = null
                 target = null
-            })
+            }
+            drag.addEventListener("mouseup", outEvent)
+            drag.addEventListener("mouseleave", outEvent)
         })
 })()
