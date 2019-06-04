@@ -9,18 +9,18 @@
             var tmpElement = null
             drag.addEventListener("mousedown", e => {
                 target = e.target
-                var selectIndex = [...drag.children].findIndex(x =>x==target)
+                var selectIndex = [...drag.children].findIndex(x => x == target)
 
                 tmpElement = target.cloneNode("true")
                 tmpElement.style.opacity = 0.2
                 drag.insertBefore(tmpElement, drag.children[selectIndex])
-                
+
                 target.style.position = "absolute"
                 target.style.top = e.clientY - drag.getBoundingClientRect().top - target.clientHeight / 2 + "px"
             })
             drag.addEventListener("mousemove", e => {
                 if (target) {
-                    var itemIndex = Math.floor((e.clientY - drag.getBoundingClientRect().top + itemHeight/2) / itemHeight)
+                    var itemIndex = Math.floor((e.clientY - drag.getBoundingClientRect().top + itemHeight / 2) / itemHeight)
                     drag.removeChild(tmpElement)
                     drag.insertBefore(tmpElement, drag.children[itemIndex])
 
@@ -30,14 +30,17 @@
             })
             function outEvent(e) {
                 var itemIndex = Math.floor((e.clientY - drag.getBoundingClientRect().top + itemHeight / 2) / itemHeight)
-                drag.removeChild(tmpElement)
-                drag.insertBefore(target, drag.children[itemIndex])
-
-                target.style.position = "static"
-                target.style.boxShadow = "none"
-
-                tmpElement = null
-                target = null
+                if (tmpElement) {
+                    drag.removeChild(tmpElement)
+                    drag.insertBefore(target, drag.children[itemIndex > drag.children.length - 1 ? drag.children.length - 1 : itemIndex])
+                }
+                if(target){
+                    target.style.position = "static"
+                    target.style.boxShadow = "none"
+                    
+                    tmpElement = null
+                    target = null
+                }
             }
             drag.addEventListener("mouseup", outEvent)
             drag.addEventListener("mouseleave", outEvent)
