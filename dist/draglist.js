@@ -2,6 +2,7 @@
     var dragList = document.getElementsByClassName("drag-list")
         ;[...dragList].forEach(drag => {
             drag.style.position = "relative"
+            drag.style.overflow = "hidden"
 
             var target = null
             var itemHeight = drag.children[0].scrollHeight
