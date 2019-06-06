@@ -9,7 +9,8 @@
 
         var tmpElement = null
         drag.addEventListener("mousedown", e => {
-            target = e.target
+            if(e.target != drag)
+                target = e.target
             var selectIndex = [...drag.children].findIndex(x => x == target)
 
             tmpElement = target.cloneNode("true")
@@ -37,7 +38,7 @@
             var itemIndex = Math.floor((e.clientY - drag.getBoundingClientRect().top + itemHeight / 2) / itemHeight)
             if (tmpElement) {
                 drag.removeChild(tmpElement)
-                drag.insertBefore(target, drag.children[itemIndex > drag.children.length - 1 ? drag.children.length - 1 : itemIndex])
+                drag.insertBefore(target, drag.children[itemIndex > drag.children.length ? drag.children.length : itemIndex])
             }
             if (target) {
                 target.style.zIndex = target.style.zIndex - 1
